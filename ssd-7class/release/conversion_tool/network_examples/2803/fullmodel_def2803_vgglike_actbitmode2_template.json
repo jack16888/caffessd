@@ -1,0 +1,81 @@
+{
+    "layer": [
+        {
+            "data file": null,
+            "data offset": null,
+            "input format": "CS_BGR24_PLANAR",
+            "name": "image reader",
+            "operation": "IMAGEREADER",
+            "output channels": 3,
+            "output format": "CS_BGR24_PLANAR",
+            "output height": 224,
+            "output width": 224
+        },
+        {
+            "name": "cnn",
+            "operation": "GTICNN",
+            "data file": "coef.dat",
+            "device": {
+                "chip": "2803",
+                "emmc delay": 12000,
+                "type": 0,
+                "name": null
+            },
+            "mode": 0,
+            "data offset": 0,
+            "output scaledown": 0,
+            "output channels": 128,
+            "output width": 7,
+            "output height": 7,
+            "type": "float"
+        },
+        {
+            "name": "fc6",
+            "operation": "FC",
+            "data file": "fc6.bin",
+            "activation": "relu",
+            "data offset": 0,
+            "output channels": 4096,
+            "output height": 1,
+            "output width": 1
+        },
+        {
+            "name": "fc7",
+            "operation": "FC",
+            "data file": "fc7.bin",
+            "activation": "relu",
+            "data offset": 0,
+            "output channels": 4096,
+            "output height": 1,
+            "output width": 1
+        },
+        {
+            "name": "fc8",
+            "operation": "FC",
+            "data file": "fc8.bin",
+            "data offset": 0,
+            "output channels": 1000,
+            "output height": 1,
+            "output width": 1
+        },
+        {
+            "name": "softmax",
+            "operation": "SOFTMAX",
+            "data offset": null,
+            "data file": null,
+            "output channels": 1000,
+            "output height": 1,
+            "output width": 1
+        },
+        {
+            "name": "label",
+            "operation": "LABEL",
+            "data file": "labels.txt",
+            "data offset": 0,
+            "output channels": 1,
+            "output height": 1,
+            "output width": 1
+        }
+    ],
+    "name": "gti_2803_vgglike"
+}

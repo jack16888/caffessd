@@ -1,0 +1,70 @@
+{
+  "model": [
+    {
+      "ChipType":               2803
+    }
+  ],
+  "layer": [
+    {
+      "image_size":             448,
+      "input_channels":         3,
+      "output_channels":        16,
+      "sublayer_number":        1,
+      "coef_bits":              12,
+      "pooling":                true,
+      "upsample_enable":        false,
+      "learning":               false
+    },
+    {
+      "image_size":             224,
+      "input_channels":         16,
+      "output_channels":        32,
+      "sublayer_number":        1,
+      "coef_bits":              12,
+      "pooling":                true,
+      "upsample_enable":        false,
+      "learning":               false
+    },
+    {
+      "image_size":             112,
+      "input_channels":         32,
+      "output_channels":        64,
+      "sublayer_number":        1,
+      "coef_bits":              12,
+      "pooling":                true,
+      "upsample_enable":        false,
+      "learning":               false
+    },
+    {
+      "image_size":             56,
+      "input_channels":         64,
+      "output_channels":        32,
+      "sublayer_number":        1,
+      "coef_bits":              12,
+      "pooling":                false,
+      "upsample_enable":        true,
+      "learning":               false
+    },
+    {
+      "image_size":             112,
+      "input_channels":         32,
+      "output_channels":        16,
+      "sublayer_number":        1,
+      "coef_bits":              12,
+      "pooling":                false,
+      "upsample_enable":        true,
+      "learning":               false
+    },        
+    {
+      "image_size":             224,
+      "input_channels":         16,
+      "output_channels":        3,
+      "sublayer_number":        1,
+      "coef_bits":              12,
+      "pooling":                false,
+      "upsample_enable":        true,
+      "learning":               false
+    }
+  ]
+}
+

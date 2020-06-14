@@ -1,0 +1,82 @@
+{
+  "model": [
+    {
+      "ChipType":             5801,
+      "SamplingMethod":       1
+    }
+  ],
+  "layer": [
+    {
+      "image_size":             224,
+      "input_channels":         3,
+      "output_channels":        32,
+      "sublayer_number":        1,
+      "coef_bits":              8,
+      "pooling":                true,
+      "depth_enable":           false,
+      "one_coef":               [0],
+      "learning":               false,
+      "last_layer_out":         false
+    },
+    {
+      "image_size":             112,
+      "input_channels":         32,
+      "output_channels":        64,
+      "sublayer_number":        3,
+      "coef_bits":              8,
+      "pooling":                true,
+      "depth_enable":           true,
+      "one_coef":               [0,1,0],
+      "learning":               false,
+      "last_layer_out":         false
+    },
+    {
+      "image_size":             56,
+      "input_channels":         64,
+      "output_channels":        128,
+      "sublayer_number":        4,
+      "coef_bits":              8,
+      "pooling":                true,
+      "depth_enable":           true,
+      "one_coef":               [1,0,1,0],
+      "learning":               false,
+      "last_layer_out":         false
+    },
+    {
+      "image_size":             28,
+      "input_channels":         128, 
+      "output_channels":        256,
+      "sublayer_number":        4,
+      "coef_bits":              8,
+      "pooling":                true,
+      "depth_enable":           true,
+      "one_coef":               [1,0,1,0],
+      "learning":               false,
+      "last_layer_out":         false
+    },
+    {
+      "image_size":             14,
+      "input_channels":         256,
+      "output_channels":        512,
+      "sublayer_number":        12,
+      "coef_bits":              8,
+      "pooling":                true,
+      "depth_enable":           true,
+      "one_coef":               [1,0,1,0,1,0,1,0,1,0,1,0],
+      "learning":               false,
+      "last_layer_out":         false
+    },
+    {
+      "image_size":             7,
+      "input_channels":         512,
+      "output_channels":        1024,
+      "sublayer_number":        3,
+      "coef_bits":              8,
+      "pooling":                false,
+      "depth_enable":           true,
+      "one_coef":               [1,0,1],
+      "learning":               false,
+      "last_layer_out":         false
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+    "layer": [
+        {
+            "data file": null,
+            "data offset": null,
+            "input format": "CS_BGR24_PLANAR",
+            "name": "image reader",
+            "operation": "IMAGEREADER",
+            "output channels": 3,
+            "output format": "CS_BGR24_PLANAR",
+            "output height": 224,
+            "output width": 224
+        },
+        {
+            "name": "cnn",
+            "operation": "GTICNN",
+            "data file": "coef.dat",
+            "device": {
+                "chip": "2801",
+                "type": 0,
+                "name": null
+            },
+            "mode": 1,
+            "data offset": 0,
+            "output scaledown": 3,
+            "output channels": 512,
+            "output width": 7,
+            "output height": 7
+        }
+    ],
+    "name": "gti_2801_vgg16_1-3bit"
+}

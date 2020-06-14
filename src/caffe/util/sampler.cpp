@@ -111,6 +111,7 @@ void SampleBBox(const Sampler& sampler, NormalizedBBox* sampled_bbox) {
   caffe_rng_uniform(1, 0.f, 1 - bbox_width, &w_off);
   caffe_rng_uniform(1, 0.f, 1 - bbox_height, &h_off);
 
+
   sampled_bbox->set_xmin(w_off);
   sampled_bbox->set_ymin(h_off);
   sampled_bbox->set_xmax(w_off + bbox_width);

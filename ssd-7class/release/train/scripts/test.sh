@@ -1,0 +1,1 @@
+/home/user/Apps/caffe/build/tools/caffe test -model /home/workspace/Caffe_Training/Gnet1_Quant/gnet1_quant_train.prototxt -weights /home/workspace/Caffe_Training/Gnet1_Quant/models_backup/snapshot_iter_1000_scale.caffemodel -gpu 0 -iterations 100

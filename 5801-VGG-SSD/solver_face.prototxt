@@ -1,0 +1,27 @@
+train_net: "step4/net_refined_ssd.prototxt"
+test_net: "step4/VGG_SSD_224_5801_test.prototxt"
+test_iter: 142
+test_interval: 100
+base_lr: 0.00010000000475
+display: 100
+max_iter: 200000
+lr_policy: "multistep"
+gamma: 0.10000000149
+momentum: 0.899999976158
+weight_decay: 0.000500000023749
+snapshot: 5000
+snapshot_prefix: "step4/"
+solver_mode: GPU
+device_id: 0
+debug_info: false
+snapshot_after_train: true
+test_initialization: false
+average_loss: 10
+stepvalue: 80000
+stepvalue: 100000
+stepvalue: 120000
+iter_size: 1
+type: "SGD"
+eval_type: "detection"
+ap_version: "11point"
+

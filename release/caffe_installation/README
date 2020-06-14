@@ -1,0 +1,22 @@
+## This doc provides detailed instructions to install CAFFE suitable for running train/test model designed for CNN accelerator chip designed by Gyrfalcon technology Inc (GTI)
+## It can be divided into the following two steps:
+-------------------------------------------------------------------------------------------------------------
+Step 1: Install original CAFFE developed by Berkerly Vision and Learning Center (BVLC); Detailed instructions can be found at:
+        (a) For Ubuntu, please refer
+"https://github.com/BVLC/caffe/wiki/Ubuntu-16.04-or-15.10-Installation-Guide"
+            (CAFFE can be downloaded through "git clone https://github.com/BVLC/caffe")
+        (b) For other operation systems, please refer
+"http://caffe.berkeleyvision.org/installation.html?utm_source=jiji.io"
+
+Step 2: Make modifications on original CAFFE (assuming Step 1 is finished and original CAFFFE has been successfully installed)
+        (a) MERGE file "caffe.proto" into CAFFE_DIRECTORY/src/caffe/proto, please do merge instead of copy file to add new parameter definition
+        (b) Cpoy file : "data_transformer.cpp" into CAFFE_DIRECTORY/src/caffe/
+        (c) Copy files: "quant_conv_layer.cpp", "quant_conv_layer.cu", "quant_relu_layer.cpp", "quant_relu_layer.cu", "pooling_layer.cpp", "pooling_layer.cu" into CAFFE_DIRECTORY/src/caffe/layers/
+        (d) Copy files: "quant_conv_layer.hpp", "quant_relu_layer.hpp", "pooling_layer.hpp" into CAFFE_DIRECTORY/include/caffe/layers/
+        (e) Copy file : "filler.hpp" into CAFFE_DIRECTORY/include/caffe/
+        (f) re-compile the caffe using:
+            “make clean” "make all", "make test", "make runtest", "make pycaffe"(for python binding), and "make distribute".
+            (Note that "sudo" might be needed when "make" the files)
+---------------------------------------------------------------------------------------------------------------
+## After these two steps, the modified CAFFE for GTI chips should be ready to work!!
+## Note that if you are using Nvidia GPU, you would need to install CUDA and cuDNN.

@@ -1,0 +1,61 @@
+{
+    "layer": [
+        {
+            "data file": null,
+            "data offset": null,
+            "input format": "CS_BGR24_PLANAR",
+            "name": "image reader",
+            "operation": "IMAGEREADER",
+            "output channels": 3,
+            "output format": "CS_BGR24_PLANAR",
+            "output height": 224,
+            "output width": 224
+        },
+        {
+            "name": "cnn",
+            "operation": "GTICNN",
+            "data file": "coef.dat",
+            "device": {
+                "chip": "2801",
+                "type": 0,
+                "emmc delay": 12000, 
+                "name": null
+            },
+            "mode": 2,
+            "data offset": 0,
+            "output scaledown": 0,
+            "output channels": 256,
+            "output width": 14,
+            "output height": 14
+        },
+    	{
+      	    "data offset": null, 
+            "name": "pooling", 
+            "output channels": 256, 
+            "data file": null, 
+            "mode": "top_left", 
+            "operation": "POOLING", 
+            "output width": 1, 
+            "output height": 1
+        },
+        {
+            "data offset": null, 
+            "name": "softmax", 
+            "output channels": 2, 
+            "data file": null, 
+            "output height": 1, 
+            "operation": "SOFTMAX", 
+            "output width": 1
+        },
+        {
+            "name": "label",
+            "operation": "LABEL",
+            "data file": "labels.txt",
+            "data offset": 0,
+            "output channels": 2,
+            "output height": 1,
+            "output width": 1
+        }
+    ],
+    "name": "gti_2801_gnetfc"
+}

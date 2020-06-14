@@ -1,0 +1,56 @@
+{
+  "model": [
+    {
+      "ChipType":               2803,
+      "ActivationBitMode":      2
+    }
+  ],
+  "layer": [
+    {
+      "image_size":             224,
+      "input_channels":         3,
+      "output_channels":        32,
+      "sublayer_number":        2,
+      "pooling":                true,
+      "coef_bits":              12,
+      "learning":               false
+    },
+    {
+      "image_size":             112,
+      "input_channels":         32,
+      "output_channels":        64,
+      "sublayer_number":        2,
+      "pooling":                true,
+      "coef_bits":              12,
+      "learning":               false
+    },
+    {
+      "image_size":             56,
+      "input_channels":         64,
+      "output_channels":        128,
+      "sublayer_number":        2,
+      "pooling":                true,
+      "coef_bits":              12,
+      "learning":               false
+    },    
+    {
+      "image_size":             28,
+      "input_channels":         128,
+      "output_channels":        128,
+      "sublayer_number":        2,
+      "pooling":                true,
+      "coef_bits":              12,
+      "learning":               false
+    },
+    {
+      "image_size":             14,
+      "input_channels":         128,
+      "output_channels":        128,
+      "sublayer_number":        2,
+      "pooling":                true,
+      "coef_bits":              12,
+      "learning":               false
+    }           
+  ]
+}
+

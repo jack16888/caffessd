@@ -1,0 +1,1416 @@
+name: "5801_MobileNet_448_deploy"
+layer {
+  name: "input"
+  type: "Input"
+  top: "data"
+  input_param {
+    shape {
+      dim: 1
+      dim: 3
+      dim: 448
+      dim: 448
+    }
+  }
+}
+layer {
+  name: "conv1"
+  type: "QuantConvolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 32
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu1"
+  type: "QuantReLU"
+  bottom: "conv1"
+  top: "conv1"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    sample: true
+    kernel_size: 2
+    stride: 2
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv2_1_dw"
+  type: "QuantConvolution"
+  bottom: "pool1"
+  top: "conv2_1_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 32
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 32
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu2_1_dw"
+  type: "QuantReLU"
+  bottom: "conv2_1_dw"
+  top: "conv2_1_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv2_1_sep"
+  type: "QuantConvolution"
+  bottom: "conv2_1_dw"
+  top: "conv2_1_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu2_1_sep"
+  type: "QuantReLU"
+  bottom: "conv2_1_sep"
+  top: "conv2_1_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv2_2_dw"
+  type: "QuantConvolution"
+  bottom: "conv2_1_sep"
+  top: "conv2_2_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 64
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 64
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu2_2_dw"
+  type: "QuantReLU"
+  bottom: "conv2_2_dw"
+  top: "conv2_2_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2_2_dw"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    sample: true
+    kernel_size: 2
+    stride: 2
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv2_2_sep"
+  type: "QuantConvolution"
+  bottom: "pool2"
+  top: "conv2_2_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu2_2_sep"
+  type: "QuantReLU"
+  bottom: "conv2_2_sep"
+  top: "conv2_2_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv3_1_dw"
+  type: "QuantConvolution"
+  bottom: "conv2_2_sep"
+  top: "conv3_1_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 128
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu3_1_dw"
+  type: "QuantReLU"
+  bottom: "conv3_1_dw"
+  top: "conv3_1_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv3_1_sep"
+  type: "QuantConvolution"
+  bottom: "conv3_1_dw"
+  top: "conv3_1_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu3_1_sep"
+  type: "QuantReLU"
+  bottom: "conv3_1_sep"
+  top: "conv3_1_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv3_2_dw"
+  type: "QuantConvolution"
+  bottom: "conv3_1_sep"
+  top: "conv3_2_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 128
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 128
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu3_2_dw"
+  type: "QuantReLU"
+  bottom: "conv3_2_dw"
+  top: "conv3_2_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "pool3"
+  type: "Pooling"
+  bottom: "conv3_2_dw"
+  top: "pool3"
+  pooling_param {
+    pool: MAX
+    sample: true
+    kernel_size: 2
+    stride: 2
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv3_2_sep"
+  type: "QuantConvolution"
+  bottom: "pool3"
+  top: "conv3_2_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu3_2_sep"
+  type: "QuantReLU"
+  bottom: "conv3_2_sep"
+  top: "conv3_2_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv4_1_dw"
+  type: "QuantConvolution"
+  bottom: "conv3_2_sep"
+  top: "conv4_1_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 256
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu4_1_dw"
+  type: "QuantReLU"
+  bottom: "conv4_1_dw"
+  top: "conv4_1_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv4_1_sep"
+  type: "QuantConvolution"
+  bottom: "conv4_1_dw"
+  top: "conv4_1_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu4_1_sep"
+  type: "QuantReLU"
+  bottom: "conv4_1_sep"
+  top: "conv4_1_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv4_2_dw"
+  type: "QuantConvolution"
+  bottom: "conv4_1_sep"
+  top: "conv4_2_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 256
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 256
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu4_2_dw"
+  type: "QuantReLU"
+  bottom: "conv4_2_dw"
+  top: "conv4_2_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "pool4"
+  type: "Pooling"
+  bottom: "conv4_2_dw"
+  top: "pool4"
+  pooling_param {
+    pool: MAX
+    sample: true
+    kernel_size: 2
+    stride: 2
+    engine: CAFFE
+  }
+}
+
+layer {
+  name: "conv4_2_sep"
+  type: "QuantConvolution"
+  bottom: "pool4"
+  top: "conv4_2_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu4_2_sep"
+  type: "QuantReLU"
+  bottom: "conv4_2_sep"
+  top: "conv4_2_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_1_dw"
+  type: "QuantConvolution"
+  bottom: "conv4_2_sep"
+  top: "conv5_1_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 512
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_1_dw"
+  type: "QuantReLU"
+  bottom: "conv5_1_dw"
+  top: "conv5_1_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_1_sep"
+  type: "QuantConvolution"
+  bottom: "conv5_1_dw"
+  top: "conv5_1_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_1_sep"
+  type: "QuantReLU"
+  bottom: "conv5_1_sep"
+  top: "conv5_1_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_2_dw"
+  type: "QuantConvolution"
+  bottom: "conv5_1_sep"
+  top: "conv5_2_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 512
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_2_dw"
+  type: "QuantReLU"
+  bottom: "conv5_2_dw"
+  top: "conv5_2_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_2_sep"
+  type: "QuantConvolution"
+  bottom: "conv5_2_dw"
+  top: "conv5_2_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_2_sep"
+  type: "QuantReLU"
+  bottom: "conv5_2_sep"
+  top: "conv5_2_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_3_dw"
+  type: "QuantConvolution"
+  bottom: "conv5_2_sep"
+  top: "conv5_3_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 512
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_3_dw"
+  type: "QuantReLU"
+  bottom: "conv5_3_dw"
+  top: "conv5_3_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_3_sep"
+  type: "QuantConvolution"
+  bottom: "conv5_3_dw"
+  top: "conv5_3_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_3_sep"
+  type: "QuantReLU"
+  bottom: "conv5_3_sep"
+  top: "conv5_3_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_4_dw"
+  type: "QuantConvolution"
+  bottom: "conv5_3_sep"
+  top: "conv5_4_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 512
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_4_dw"
+  type: "QuantReLU"
+  bottom: "conv5_4_dw"
+  top: "conv5_4_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_4_sep"
+  type: "QuantConvolution"
+  bottom: "conv5_4_dw"
+  top: "conv5_4_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_4_sep"
+  type: "QuantReLU"
+  bottom: "conv5_4_sep"
+  top: "conv5_4_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_5_dw"
+  type: "QuantConvolution"
+  bottom: "conv5_4_sep"
+  top: "conv5_5_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 512
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_5_dw"
+  type: "QuantReLU"
+  bottom: "conv5_5_dw"
+  top: "conv5_5_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_5_sep"
+  type: "QuantConvolution"
+  bottom: "conv5_5_dw"
+  top: "conv5_5_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_5_sep"
+  type: "QuantReLU"
+  bottom: "conv5_5_sep"
+  top: "conv5_5_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv5_6_dw"
+  type: "QuantConvolution"
+  bottom: "conv5_5_sep"
+  top: "conv5_6_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 512
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 512
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_6_dw"
+  type: "QuantReLU"
+  bottom: "conv5_6_dw"
+  top: "conv5_6_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "pool5"
+  type: "Pooling"
+  bottom: "conv5_6_dw"
+  top: "pool5"
+  pooling_param {
+    pool: MAX
+    sample: true
+    kernel_size: 2
+    stride: 2
+    engine: CAFFE
+  }
+}
+layer {
+  name: "conv5_6_sep"
+  type: "QuantConvolution"
+  bottom: "pool5"
+  top: "conv5_6_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 1024
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu5_6_sep"
+  type: "QuantReLU"
+  bottom: "conv5_6_sep"
+  top: "conv5_6_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv6_dw"
+  type: "QuantConvolution"
+  bottom: "conv5_6_sep"
+  top: "conv6_dw"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 1024
+    bias_term: true
+    pad: 1
+    kernel_size: 3
+    group: 1024
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+    engine: CAFFE
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu6_dw"
+  type: "QuantReLU"
+  bottom: "conv6_dw"
+  top: "conv6_dw"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "conv6_sep"
+  type: "QuantConvolution"
+  bottom: "conv6_dw"
+  top: "conv6_sep"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  convolution_param {
+    num_output: 1024
+    bias_term: true
+    pad: 0
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+  quant_convolution_param {
+    coef_precision: DYNAMIC_FIXED_POINT
+    bw_params: 8
+    shift_enable: false
+  }
+}
+layer {
+  name: "relu6_sep"
+  type: "QuantReLU"
+  bottom: "conv6_sep"
+  top: "conv6_sep"
+  param {
+    lr_mult: 0.0
+  }
+  quant_relu_param {
+    filler {
+      type: "constant"
+      value: 31.0
+    }
+    channel_shared: true
+    act_bits: 5
+    quant_enable: true
+  }
+}
+layer {
+  name: "pool6"
+  type: "Pooling"
+  bottom: "conv6_sep"
+  top: "pool6"
+  pooling_param {
+    pool: AVE
+    global_pooling: true
+  }
+}
+layer {
+  name: "fc7_40"
+  type: "Convolution"
+  bottom: "pool6"
+  top: "fc7_40"
+  param {
+    lr_mult: 1.0
+    decay_mult: 1.0
+  }
+  param {
+    lr_mult: 2.0
+    decay_mult: 0.0
+  }
+  convolution_param {
+    num_output: 40
+    kernel_size: 1
+    weight_filler {
+      type: "msra"
+    }
+    bias_filler {
+      type: "constant"
+      value: 0.0
+    }
+  }
+}
+layer {
+  name: "prob"
+  type: "Softmax"
+  bottom: "fc7_40"
+  top: "prob"
+}

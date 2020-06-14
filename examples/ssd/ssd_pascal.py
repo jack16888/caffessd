@@ -329,13 +329,13 @@ clip = False
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = "0,1,2,3"
+gpus = "0"
 gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 32
-accum_batch_size = 32
+batch_size = 8
+accum_batch_size = 8
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
 device_id = 0
@@ -354,7 +354,7 @@ elif normalization_mode == P.Loss.FULL:
   # Roughly there are 2000 prior bboxes per image.
   # TODO(weiliu89): Estimate the exact # of priors.
   base_lr *= 2000.
-
+base_lr = 0.0001
 # Evaluate on whole test set.
 num_test_image = 4952
 test_batch_size = 8

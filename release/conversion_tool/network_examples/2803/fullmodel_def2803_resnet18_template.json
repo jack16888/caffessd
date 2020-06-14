@@ -1,0 +1,69 @@
+{
+    "layer": [
+        {
+            "data file": null,
+            "data offset": null,
+            "input format": "CS_BGR24_PLANAR",
+            "name": "image reader",
+            "operation": "IMAGEREADER",
+            "output channels": 3,
+            "output format": "CS_BGR24_PLANAR",
+            "output height": 224,
+            "output width": 224
+        },
+        {
+            "data file": "coef.dat",
+            "data offset": 0,
+            "device": {
+                "chip": "2803",
+                "emmc delay": 12000,
+                "name": null,
+                "type": 0
+            },
+            "mode": 5,
+            "name": "cnn",
+            "operation": "GTICNN",
+            "output channels": 512,
+            "output height": 7,
+            "output width": 7
+        },
+        {
+            "data file": null,
+            "data offset": null,
+            "mode": "average",
+            "name": "pooling",
+            "operation": "POOLING",
+            "output channels": 512,
+            "output height": 1,
+            "output width": 1
+        },
+        {
+            "name": "fc",
+            "operation": "FC",
+            "data file": "fc.bin",
+            "data offset": 0,
+            "output channels": 1000,
+            "output height": 1,
+            "output width": 1
+        },
+        {
+            "name": "softmax",
+            "operation": "SOFTMAX",
+            "data offset": null,
+            "data file": null,
+            "output channels": 1000,
+            "output height": 1,
+            "output width": 1
+        },
+        {
+            "name": "label",
+            "operation": "LABEL",
+            "data file": "labels.txt",
+            "data offset": 0,
+            "output channels": 1,
+            "output height": 1,
+            "output width": 1
+        }
+    ],
+    "name": "gti_2803_resnet18_fc1000 model"
+}
